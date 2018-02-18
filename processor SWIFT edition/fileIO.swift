@@ -86,6 +86,17 @@ class FileIO
         
         return result;
         }
+        
+    public func calculateLinesQuantity() -> Int
+        {
+        return ( storage.numberOfOccurances ( substring: "\n" ) + 1 );
+        }
+        
+    public func isEnd() -> Bool
+        {
+        return ( currentChar > storageSize );
+        }
+    
     
     };
     

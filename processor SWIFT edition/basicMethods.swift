@@ -8,6 +8,18 @@
 
 import Foundation
 
+
+extension String
+    {
+    func numberOfOccurances ( substring find: String ) -> Int
+        {
+        return ( ( ( self.components ( separatedBy: find ) ).count - 1 ) );
+        }
+    }
+
+
+
+
 func isDigit ( inputChar: Character ) -> Bool
     {
     if ( ( inputChar >= "0" ) && ( inputChar <= "9" ) )
