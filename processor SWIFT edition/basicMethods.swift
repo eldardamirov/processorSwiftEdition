@@ -56,10 +56,8 @@ func fromStringToInt ( figure: Character ) -> Int
     {
     var figureInt: Int = Int ( String ( figure ) )!;
     
-    
     if ( ( figureInt - zero ) < 10 )
         {
-        var zero: Int = Int ( "0" )!;
         return ( figureInt - zero );
         }
     else
@@ -77,7 +75,8 @@ func fromStringToNumber ( number: String ) -> Int
     
     for i in 0..<number.count
         {
-        result = result + fromStringToInt ( figure: number [ i ] ) * Int ( pow ( 10, ( number.count - i - 1 ) ) );
+        
+        result = result + fromStringToInt ( figure: number [ number.index ( number.startIndex, offsetBy: i ) ] ) * myPow ( 10, ( number.count - i - 1 ) );
         }
     
     return result;
@@ -85,7 +84,17 @@ func fromStringToNumber ( number: String ) -> Int
     
     
     
-    
+func myPow ( _ baseNumber: Int, _ degree: Int ) -> Int
+    {
+    var result: Int = 1;
+
+    for _ in 0..<degree
+        {
+        result = result * baseNumber; 
+        }
+        
+    return result;
+    }  
     
     
     

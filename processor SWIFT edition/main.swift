@@ -8,5 +8,7 @@
 
 import Foundation
 
-class 
+ 
+
+//print ( fromStringToNumber ( number: "6" ) + 5 );
 

@@ -8,44 +8,125 @@
 
 import Foundation
 
-// ----------------------------------------------------------------------------------------
-let poisonInt = 12345678;
-let poisonDouble: Double = Double.nan;
-let poisonFloat: Float = Float.nan;
-let poisonCharacter: Character = "-";
-// ----------------------------------------------------------------------------------------
 
-
-struct stackElement <typeOfData> 
+class Stack <typeOfData>   
     {
-    var elementValue: typeOfData;
-    // var elementHashValue: Int = 0;
-    }
+    private var storage = [ typeOfData ]();
+    private var stackSize: Int = 0;
+    
+    public func push ( valueToPush value: typeOfData )
+        {
+        storage.append ( value );
+        
+        stackSize = stackSize + 1;
+        }
+
+    public func pop()
+        {
+        storage.removeLast();
+            
+        stackSize = stackSize - 1;
+        }
+	
+    
+    public func empty() -> Bool
+        {
+        return ( stackSize > 0 );
+        }
 
 
-class Stack <typeOfData>
-    {
-    init ( tempStackCapacity: Int )
+    public func size() -> Int
         {
-        stackCapacity = tempStackCapacity;
+        return stackSize;
         }
         
-    deinit 
+    public func top() -> typeOfData
         {
-        // 
-        
+        return storage [ ( stackSize - 1 ) ];
         }
-    
-    
-    public func printItAll()
-        {
-        
-        }
-    
-        
-    private var stackCapacity: Int = 0;
-    
-    
-        
-        
-    }
+
+    };
+
+
+//// ----------------------------------------------------------------------------------------
+//let poisonInt = 12345678;
+//let poisonDouble: Double = Double.nan;
+//let poisonFloat: Float = Float.nan;
+//let poisonCharacter: Character = "-";
+//// ----------------------------------------------------------------------------------------
+//
+//
+//struct stackElement <typeOfData> 
+//    {
+//    var elementValue: typeOfData;
+//    // var elementHashValue: Int = 0;
+//    }
+//
+//
+//class Stack <typeOfData>
+//    {
+//    init ( tempStackCapacity: Int )
+//        {
+//        stackCapacity = tempStackCapacity;
+//        
+//        var temp: typeOfData;
+//        
+//        
+//        
+////        switch ( { () -> typeOfData.Type in var temp: typeOfData; return type ( of: temp ) } )
+////        switch ( temp ) 
+////            {
+////            case type ( of: Int ):
+////                {
+////                poisonValue = poisonInt;
+////                }
+////            
+////            default:
+////                return 0;
+////                
+////                
+////            };
+//        }
+//        
+//    deinit 
+//        {
+//        // 
+//        
+//        }
+//    
+//    
+//    public func printItAll()
+//        {
+//        for currentElement in stackArray
+//            {
+//            print ( "\( currentElement )\n" );
+//            }
+//        }
+//        
+//    private func setPoisonValue()
+//        {
+//        var temp: typeOfData;
+//                
+//        if ( type ( of: temp ) == type ( of: poisonInt ) )
+//            {
+//            poisonValue = poisonInt;
+//            }
+//        }
+//    
+//        
+//
+//    private var stackArray: [ stackElement <typeOfData> ] = [];
+//    private var stackCurrentElement = 0, stackCapacity = 0;
+//    private var stackCurrentSize = 0;
+//    private var isOk = true;
+//    
+//    private var poisonValue: typeOfData;
+//    
+//    
+//        
+//    
+//    
+//        
+//        
+//    }
+

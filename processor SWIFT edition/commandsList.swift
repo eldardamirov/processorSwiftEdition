@@ -75,6 +75,7 @@ let returnCommandHuman = "ret";
 
 
 
+var zero: Int = Int ( "0" )!;
 
 
 
