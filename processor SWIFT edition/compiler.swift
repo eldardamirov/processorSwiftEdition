@@ -44,10 +44,12 @@ class compiler
     
     
     //----------------------------------------------------------------------
+    var machineCode: String = "";
+    //----------------------------------------------------------------------
     var commandInMemoryLocation: Int = -1;
     //----------------------------------------------------------------------
     var storage: FileIO;    // HMM, looks like BIDLOKOD!!!
-    var jumpMarks: [ ( String, Int ) ] = [ ( "", 0 ) ];
+    var jumpMarks: [ String : Int ] = [ : ];
     
     //----------------------------------------------------------------------
     var linesQuantity: Int = 0;
@@ -111,22 +113,163 @@ class compiler
                         }
                     else
                         {
-                        commandInMemoryLocation = commandInMemoryLocation + /// currentCommandArgument;
+                        commandInMemoryLocation = commandInMemoryLocation + argumentAnalyser ( currentCommand: currentCommand, currentArgumentTemp: currentArgumentTemp );
+                        
                         }
+                    
+                    }
+                
+                }
+            else
+                {
+                commandsArray [ currentCommand ].operandaModifier = -3;
+                commandsArray [ currentCommand ].argumentS = currentInputLine;
+                jumpMarks [ currentInputLine ] = commandInMemoryLocation;
+                
+                
+                
+                if ( currentCommandTemp == jmpCommandHuman )
+                    {
+                    
+                    commandsArray [ currentCommand ].operandaModifier = -2;
+                    commandsArray [ currentCommand ].commandId = processorCommands.jmp.rawValue;
+                    commandsArray [ currentCommand ].argumentS = getWordInString ( inputString: currentInputLine , mode: 1 );
+                    
+                    }
+                else
+                    {
+                    
+                    commandsArray [ currentCommand ].operandaModifier = -3;
+                    commandsArray [ currentCommand ].argumentS = currentInputLine;
+                    jumpMarks [ currentInputLine ] = commandInMemoryLocation;
                     
                     }
                 
                 
                 }
             
+            }
+        
+        
+        for i in 0..<linesQuantity
+            {
             
+            if ( commandsArray [ i ].operandaModifier == -2 )
+                {
+                commandsArray [ i ].argument = Double ( jumpMarks [ ( commandsArray [ i ].argumentS ) ]! );
+                }
             
             }
         
         
 
+        var lineToWrite: String = "";
+        
+        var sumOfMemoryCells = String ( commandInMemoryLocation ) + "\n";
+        
+        machineCode = machineCode + sumOfMemoryCells;
+        
+//        for currentLine in 0..<linesQuantity
+//            {
+//            
+//            }
         
         
+
+        
+        
+        }
+
+
+    private func getArgumentFromString ( inputArgument: String, mode: Int ) -> String
+        {
+        var result: String = "";
+
+        var inputArgumentLength = inputArgument.count;
+        var inputArgumentBeginningIndex = inputArgument.startIndex;
+        
+        if ( mode == 0 )
+            {
+            for currentChar in 0..<inputArgumentLength
+                {
+                if ( ( inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ] != "]" ) && ( inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ] != "+" ) && ( inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ] != "-" ) )
+                    {
+                    result = result + String ( inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ] );
+                    }
+                else
+                    {
+                    break;
+                    }
+                
+                }
+            }
+        else
+            {
+            var rangeTemp = ( 1..<inputArgumentLength ).makeIterator();
+            var currentCharTemp = 0;
+//            for currentChar in 1..<inputArgumentLength
+            while var currentChar = rangeTemp.next()
+                {
+                var tempCharacter = inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ];
+                
+                if ( ( tempCharacter == "+" ) || ( tempCharacter == "-" ) )
+                    {
+                    currentChar = rangeTemp.next()!;
+                    
+                    currentCharTemp = currentChar;
+                    
+                    break;
+                    }
+                else if ( inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ] == "]" )
+                    {
+                    currentCharTemp = currentChar;
+                    
+                    break;
+                    }
+                
+                }
+            
+            var rangeTemp2 = ( currentCharTemp..<inputArgumentLength ).makeIterator();
+            
+//            for currentChar2 in currentChar..<inputArgumentLength
+            while var currentChar2 = rangeTemp2.next()
+                {
+                var tempCharacter = inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar2 ) ];
+    
+    
+                if ( ( tempCharacter != "]" ) && ( tempCharacter != "+" ) && ( tempCharacter != "-" ) )
+                    {
+                    result = result + String ( tempCharacter );
+                    }
+                else
+                    {
+                    break;
+                    }
+                }
+            }
+        
+        return result;
+        }
+
+
+    private func argumentAnalyser ( currentCommand: Int, currentArgumentTemp: String ) -> Int 
+        {
+        var memoryShift: Int = 0;
+        
+        var currentArgumentTempBeginningIndex = currentArgumentTemp.startIndex;
+        
+        
+        if ( currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: 0 ) ] == "[" )
+            {
+            if ( isDigit ( inputChar: currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: 1 ) ] ) )
+                {
+                commandsArray [ currentCommand ].operandaModifier = 0;
+//                commandsArray [ currentCommand ].argumentS =  getArgumentFromString (  )
+                
+                }
+            }
+        
+        return memoryShift;
         }
 
 
