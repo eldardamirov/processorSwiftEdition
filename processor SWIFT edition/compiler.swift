@@ -43,7 +43,8 @@ class compiler
         
     
     
-    
+    //----------------------------------------------------------------------
+    var commandInMemoryLocation: Int = -1;
     //----------------------------------------------------------------------
     var storage: FileIO;    // HMM, looks like BIDLOKOD!!!
     var jumpMarks: [ ( String, Int ) ] = [ ( "", 0 ) ];
@@ -62,7 +63,7 @@ class compiler
         
         //----------------------------------------------------------------------
         var currentCommandTemp: String = "";
-        var currentCommandArgument: String = "";
+        var currentArgumentTemp: String = "";
         var currentCommandIdTemp: Int = 0;
         //----------------------------------------------------------------------
         
@@ -74,7 +75,51 @@ class compiler
             currentInputLine   = storage.getTillEndOfLine();
             currentCommandTemp = getWordInString ( inputString: currentInputLine, mode: 0 );
 
-            currentCommandIdTemp = getCommandId ( currentCommandTemp );
+            currentCommandIdTemp = getCommandId ( tempCommand: currentCommandTemp );
+            
+            
+            commandsArray [ currentCommand ].commandId = currentCommandIdTemp;
+            
+            if ( ( currentCommandIdTemp < processorCommands.borderJump.rawValue ) && ( currentCommandIdTemp != processorCommands.nullCommand.rawValue ) )
+                {
+                
+                commandInMemoryLocation = commandInMemoryLocation + 2;
+                
+                }
+            else if ( currentCommandIdTemp != processorCommands.nullCommand.rawValue )
+                {
+                
+                if ( currentCommandIdTemp < processorCommands.borderArgument.rawValue )
+                    {
+                    
+                    commandsArray [ currentCommand ].commandId = currentCommandIdTemp;
+                    commandsArray [ currentCommand ].operandaModifier = -2;
+                    commandsArray [ currentCommand ].argumentS = clearFromSpaces ( currentArgumentTemp: getWordInString ( inputString: currentInputLine, mode: 1 ) ); 
+                    
+                    
+                    commandInMemoryLocation = commandInMemoryLocation + 2;
+                    }
+                else
+                    {
+                    currentArgumentTemp = clearFromSpaces ( currentArgumentTemp: getWordInString ( inputString: currentInputLine, mode: 1 ) ); 
+                    
+                    if ( currentArgumentTemp.count == 0 )
+                        {
+                        commandsArray [ currentCommand ].operandaModifier = -1;  
+                        commandInMemoryLocation = commandInMemoryLocation + 2;
+                        
+                        }
+                    else
+                        {
+                        commandInMemoryLocation = commandInMemoryLocation + /// currentCommandArgument;
+                        }
+                    
+                    }
+                
+                
+                }
+            
+            
             
             }
         
@@ -138,6 +183,26 @@ class compiler
 
 
         return "";
+        }
+
+
+    
+    private func clearFromSpaces ( currentArgumentTemp: String ) -> String
+        {
+        var result: String = "";
+        var argumentLength: Int = currentArgumentTemp.count;
+        
+        var currentArgumentTempBeginningIndex = currentArgumentTemp.startIndex;
+        
+        for currentChar in 0..<argumentLength
+            {
+            if ( currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: currentChar ) ] != " " )
+                {
+                result = result + String ( currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: currentChar ) ] );
+                }
+            }
+        
+        return result;
         }
 
 
