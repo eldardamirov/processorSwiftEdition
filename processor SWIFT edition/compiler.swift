@@ -164,15 +164,66 @@ class compiler
         
 
         var lineToWrite: String = "";
+        var commandState: Int = 0;
         
         var sumOfMemoryCells = String ( commandInMemoryLocation ) + "\n";
         
+        var temp: String = "";
+        
         machineCode = machineCode + sumOfMemoryCells;
         
-//        for currentLine in 0..<linesQuantity
-//            {
-//            
-//            }
+        for currentLine in 0..<linesQuantity
+            {
+            commandState = commandsArray [ currentLine ].operandaModifier;
+            
+            lineToWrite = "";
+            
+            if ( commandState == -1 )
+                {
+                lineToWrite = String ( commandsArray [ currentLine ].commandId ) + " " + String ( commandsArray [ currentLine ].operandaModifier ) + "\n";
+                }
+            if ( commandState == 0 )
+                {
+                temp = commandsArray [ currentLine ].argumentS; // !!!!
+                lineToWrite = String ( commandsArray [ currentLine ].commandId ) + " " + String ( commandsArray [ currentLine ].operandaModifier ) + " " + temp + "\n";
+                }
+            if ( commandState == 1 )
+                {
+                lineToWrite = String ( commandsArray [ currentLine ].commandId ) + " " + String ( commandsArray [ currentLine ].operandaModifier ) + " " + String ( commandsArray [ currentLine ].argument ) + "\n";
+                }
+            if ( commandState == 2 )
+                {
+                lineToWrite = String ( commandsArray [ currentLine ].commandId ) + " " + String ( commandsArray [ currentLine ].operandaModifier ) + " " + String ( commandsArray [ currentLine ].argument ) + " " + commandsArray [ currentLine ].argumentS2 + "\n"; // !!!!
+                }
+            if ( commandState == 3 )
+                {
+                lineToWrite = String ( commandsArray [ currentLine ].commandId ) + " " + String ( commandsArray [ currentLine ].operandaModifier ) + " " + String ( commandsArray [ currentLine ].argument ) + " " + String ( commandsArray [ currentLine ].argument2 ) + "\n";
+                }
+            if ( commandState == 4 )
+                {
+                lineToWrite = String ( commandsArray [ currentLine ].commandId ) + " " + String ( commandsArray [ currentLine ].operandaModifier ) + " " + commandsArray [ currentLine ].argumentS + " " + commandsArray [ currentLine ].argumentS2 + "\n"; // !!!!
+                }
+            if ( commandState == 5 )
+                {
+                lineToWrite = String ( commandsArray [ currentLine ].commandId ) + " " + String ( commandsArray [ currentLine ].operandaModifier ) + " " +    String ( commandsArray [ currentLine ].argument ) + " " + String ( commandsArray [ currentLine ].argument2 ) + "\n";
+                }
+            if ( commandState == 6 )
+                {
+                lineToWrite = String ( commandsArray [ currentLine ].commandId ) + " " + String ( commandsArray [ currentLine ].operandaModifier ) + " " + commandsArray [ currentLine ].argumentS + "\n";
+                }
+            if ( commandState == 7 )
+                {
+                lineToWrite = String ( commandsArray [ currentLine ].commandId ) + " " + String ( commandsArray [ currentLine ].operandaModifier ) + " " + String ( commandsArray [ currentLine ].argument ) + "\n"; 
+                }
+            if ( commandState == -2 )
+                {
+                lineToWrite = String ( commandsArray [ currentLine ].commandId ) + " " + String ( commandsArray [ currentLine ].argument ) + "\n";
+                }
+            
+                    
+            machineCode = machineCode + lineToWrite;
+            
+            }
         
         
 
