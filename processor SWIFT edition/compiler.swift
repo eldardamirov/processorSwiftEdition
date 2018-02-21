@@ -21,7 +21,7 @@ struct command
     }
 
 
-class compiler 
+class Compiler 
     {
     private var compilationStartTime: Double = 0;
     private var compilationFinishTime: Double = 0;
@@ -41,6 +41,11 @@ class compiler
         makeMachineCode();
         }
         
+    deinit  
+        {
+        print ( "AAA: " );
+        print ( "\( machineCode )" );
+        }
     
     
     //----------------------------------------------------------------------
@@ -75,11 +80,14 @@ class compiler
         for currentCommand in 0..<linesQuantity
             {
             currentInputLine   = storage.getTillEndOfLine();
+            
             currentCommandTemp = getWordInString ( inputString: currentInputLine, mode: 0 );
 
             currentCommandIdTemp = getCommandId ( tempCommand: currentCommandTemp );
             
             
+//            commandsArray [ currentCommand ].commandId = currentCommandIdTemp;
+            commandsArray.append ( command() );
             commandsArray [ currentCommand ].commandId = currentCommandIdTemp;
             
             if ( ( currentCommandIdTemp < processorCommands.borderJump.rawValue ) && ( currentCommandIdTemp != processorCommands.nullCommand.rawValue ) )
@@ -141,14 +149,18 @@ class compiler
                     
                     commandsArray [ currentCommand ].operandaModifier = -3;
                     commandsArray [ currentCommand ].argumentS = currentInputLine;
-                    jumpMarks [ currentInputLine ] = commandInMemoryLocation;
                     
+                    jumpMarks [ currentInputLine ] = commandInMemoryLocation;
+//                    RIP 20 minutes
                     }
                 
                 
                 }
             
+            
             }
+        
+        
         
         
         for i in 0..<linesQuantity
@@ -156,7 +168,13 @@ class compiler
             
             if ( commandsArray [ i ].operandaModifier == -2 )
                 {
-                commandsArray [ i ].argument = Double ( jumpMarks [ ( commandsArray [ i ].argumentS ) ]! );
+//                print ( jumpMarks [ ( commandsArray [ i ].argumentS ) ] );
+//                print ( " i: \( i ), commandsArray [ i ]: \( commandsArray [ i ] ), commandsArray [ i ].argumentS: \( commandsArray [ i ].argumentS ) " );
+//                print ( "AGA:" );
+//                print ( jumpMarks [ String ( commandsArray [ i ].argumentS ) ]! );
+//                RIP my time;
+
+                commandsArray [ i ].argument = Double ( jumpMarks [ String ( commandsArray [ i ].argumentS + "\n" ) ]! );
                 }
             
             }
@@ -226,8 +244,8 @@ class compiler
             }
         
         
-
-        
+        print ( machineCode );
+        print ( "FINAL TIME: \( compilationStartTime - Date().timeIntervalSince1970 )" );
         
         }
 
@@ -359,9 +377,7 @@ class compiler
                     
                     //////////////////////////////////////////////////////////////////////  
                     //////////////////////////////////////////////////////////////////////
-                    //////////////////////////////////////////////////////////////////////
-                    //////////////////////////////////////////////////////////////////////
-                    //////////////////////////////////////////////////////////////////////
+
                     }
                 
                 
@@ -403,8 +419,7 @@ class compiler
         if ( mode == 0 )
             {
             var currentChar = 0;
-
-            while ( ( inputString [ inputString.index ( inputStringBeginningIndex, offsetBy: currentChar ) ] != " " ) && ( inputString [ inputString.index ( inputStringBeginningIndex, offsetBy: currentChar ) ] != "\n" ) && ( currentChar <= inputStringSize ) )
+            while ( ( currentChar <= inputStringSize ) && ( inputString [ inputString.index ( inputStringBeginningIndex, offsetBy: currentChar ) ] != " " ) && ( inputString [ inputString.index ( inputStringBeginningIndex, offsetBy: currentChar ) ] != "\n" ) )
                 {
                 result = result + String ( inputString [ inputString.index ( inputStringBeginningIndex, offsetBy: currentChar ) ] );
 
