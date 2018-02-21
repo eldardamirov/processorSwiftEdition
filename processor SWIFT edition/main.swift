@@ -12,3 +12,5 @@ import Foundation
 
 //print ( fromStringToNumber ( number: "6" ) + 5 );
 
+
+

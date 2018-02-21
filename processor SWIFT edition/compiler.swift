@@ -315,10 +315,79 @@ class compiler
             if ( isDigit ( inputChar: currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: 1 ) ] ) )
                 {
                 commandsArray [ currentCommand ].operandaModifier = 0;
-//                commandsArray [ currentCommand ].argumentS =  getArgumentFromString (  )
+                commandsArray [ currentCommand ].argumentS =  getArgumentFromString ( inputArgument: currentArgumentTemp, mode: 0 );
+                
+                memoryShift = 3;
+                }
+            else
+                {
+                if ( isLetter ( inputChar: currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: 1 ) ] ) )
+                    {
+                    commandsArray [ currentCommand ].argument = Double ( recogniseRegister ( registerName: getArgumentFromString ( inputArgument: currentArgumentTemp, mode: 0 ) ) );
+                    
+                    var secondArgument: String = getArgumentFromString ( inputArgument: currentArgumentTemp , mode: 1 );
+                    
+                    if ( secondArgument.count != 0 )
+                        {
+                        var tempShift: Int = 0;
+                        
+                        if ( currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: ( commandsArray [ currentCommand ].argumentS.count + 3 ) ) ] == "-" )
+                            {
+                            tempShift = 2;
+                            }
+                        
+                        if ( isDigit ( inputChar: currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: ( commandsArray [ currentCommand ].argumentS.count + 4 ) ) ] ) )
+                            {
+                            commandsArray [ currentCommand ].operandaModifier = 2 + tempShift;
+                            commandsArray [ currentCommand ].argumentS2 = secondArgument;
+                            }
+                        else
+                            {
+                            commandsArray [ currentCommand ].operandaModifier = 2 + tempShift;
+                            
+                            commandsArray [ currentCommand ].argument2 = Double ( recogniseRegister ( registerName: secondArgument ) );
+                            }
+                            
+                        memoryShift = 4;
+                        }
+                    else
+                        {
+                        commandsArray [ currentCommand ].operandaModifier = 1;
+                        
+                        memoryShift = 3;
+                        }
+                    
+                    //////////////////////////////////////////////////////////////////////  
+                    //////////////////////////////////////////////////////////////////////
+                    //////////////////////////////////////////////////////////////////////
+                    //////////////////////////////////////////////////////////////////////
+                    //////////////////////////////////////////////////////////////////////
+                    }
+                
                 
                 }
+            
+                
             }
+        else
+            {
+            if ( isDigit ( inputChar: currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: 0 ) ] ) )
+                {
+                commandsArray [ currentCommand ].operandaModifier = 6;
+                commandsArray [ currentCommand ].argumentS = currentArgumentTemp;
+                
+                memoryShift = 3;
+                }
+            else if ( isLetter ( inputChar: currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: 0 ) ] ) )
+                {
+                commandsArray [ currentCommand ].operandaModifier = 7;
+                commandsArray [ currentCommand ].argument = Double ( recogniseRegister ( registerName: currentArgumentTemp ) );
+                
+                memoryShift = 3;
+                }
+            
+            }
+        
         
         return memoryShift;
         }
@@ -503,6 +572,62 @@ class compiler
         
         return processorCommands.nullCommand.rawValue;
         }
+
+
+    
+    private func recogniseRegister ( registerName: String ) -> Int
+        {
+        if ( registerName == "ax" )
+            {
+            return registers.ax.rawValue;
+            }
+        else if ( registerName == "bx" )
+                {
+                return registers.bx.rawValue;
+                }
+        else if ( registerName == "cx" )
+            {
+            return registers.cx.rawValue;
+            }
+        else if ( registerName == "dx" )
+            {
+            return registers.dx.rawValue;
+            }
+        //// ------------------------------------------------------------------------------------------------    
+        else if ( registerName == "r1" )
+            {
+            return registers.r1.rawValue;
+            }
+        else if ( registerName == "r2" )
+            {
+            return registers.r2.rawValue;
+            }
+        else if ( registerName == "r3" )
+            {
+            return registers.r3.rawValue;
+            }
+        else if ( registerName == "r4" )
+            {
+            return registers.r4.rawValue;
+            }
+        //// ------------------------------------------------------------------------------------------------
+        else if ( registerName == "n1" )
+            {
+            return registers.n1.rawValue;
+            }
+        else if ( registerName == "n2" )
+            {
+            return registers.n2.rawValue;
+            }
+        else if ( registerName == "nS" )
+            {
+            return registers.nS.rawValue;
+            }
+        
+        return -1;
+        }
+
+
 
 
 
