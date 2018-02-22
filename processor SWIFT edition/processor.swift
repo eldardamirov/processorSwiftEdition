@@ -111,152 +111,310 @@ class Processor
         
     private func doCommand() -> Int
         {
-        var commandId: Int = instructionArray [ currentMemoryCell ]; 
+        var commandId: Int = Int ( instructionArray [ currentMemoryCell ] ); 
+        
+        var returnState: Int = 0;
         
         switch commandId 
             {
             case processorCommands.hlt.rawValue:
-                {
-                return -9;
+                do {
+                returnState = -9;
                 }
             case processorCommands.nullCommand.rawValue:
-                {
-                return processorCommands.nullCommand.rawValue;
+                do {
+                returnState = processorCommands.nullCommand.rawValue; 
                 }
             case processorCommands.myOut.rawValue:
-                {
-                stackOut();
-                return 2;
+                do {
+                self.stackOut();
+                returnState = 2;
                 }
             case processorCommands.add.rawValue:
-                {
+                do {
                 stackAdd();
-                return 2;
+                returnState = 2;
                 }
             case processorCommands.sub.rawValue:
-                {
+                do {
                 stackSub();
-                return 2;
+                returnState = 2;
                 }
             case processorCommands.mul.rawValue:
-                {
+                do {
                 stackMul();
-                return 2;
+                returnState = 2;
                 }
             case processorCommands.myDiv.rawValue:
-                {
+                do {
                 stackDiv();
-                return 2;
+                returnState = 2;
                 }
             case processorCommands.mySin.rawValue:
-                {
+                do {
                 stackSin();
-                return 2;
+                returnState = 2;
                 }
             case processorCommands.myCos.rawValue:
-                {
+                do {
                 stackCos();
-                return 2;
+                returnState = 2;
                 }
             case processorCommands.mySqrt.rawValue:
-                {
+                do {
                 stackSqrt();
-                return 2;
+                returnState = 2;
                 }
             case processorCommands.myAbs.rawValue:
-                {
+                do {
                 stackAbs();
-                return 2;
+                returnState = 2;
                 }
             case processorCommands.myDup.rawValue:
-                {
+                do {
                 stackDup();
-                return 2;
+                returnState = 2;
                 }
             case processorCommands.dump.rawValue:
-                {
+                do {
                 stackDump();
-                return 2;
+                returnState = 2;
                 }
             case processorCommands.ret.rawValue:
-                {
+                do {
                 ////////////////////////////////////
                 ////////////////////////////////////
                 
-                
+                if ( functionBaskMarksStack.size() > 0 )
+                    {
+                    currentMemoryCell = functionBaskMarksStack.top();
+                    functionBaskMarksStack.pop();
+                    }
+                else
+                    {
+                    currentMemoryCell = currentMemoryCell + 2;
+                    }
                 
                 ////////////////////////////////////
                 ////////////////////////////////////
                 
-                return 0;
+                returnState = 0;
                 }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
-            case processorCommands.hlt.rawValue:
-                {
-                return 2;
-                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
+//            case processorCommands.hlt.rawValue:
+//                {
+//                return 2;
+//                }
             
-            
-                
             
             default:
+                {
+                returnState = -7;
+                }
         
             }
         
-        
+        return returnState;
         }
         
         
         
+    private func stackOut() 
+        {
+        print ( "\( processorStack.top() )" );
         
+        processorStack.pop();
         
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+    private func stackAdd()
+        {
+        var temp: Double = 0;
+        
+        temp = processorStack.top();
+        processorStack.pop();
+        
+        temp = temp + processorStack.top();
+        processorStack.pop();
+        
+        processorStack.push ( valueToPush: temp );
+    
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+    
+    private func stackSub()
+        {
+        var temp: Double = 0;
+        
+        temp = processorStack.top();
+        processorStack.pop();
+        
+        temp = temp - processorStack.top();
+        processorStack.pop();
+        
+        processorStack.push ( valueToPush: temp );
+        
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+    private func stackMul()
+        {
+        var temp: Double = 0;
+        
+        temp = processorStack.top();
+        processorStack.pop();
+        
+        temp = temp * processorStack.top();
+        processorStack.pop();
+        
+        processorStack.push ( valueToPush: temp );
+        
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+    
+    private func stackDiv()
+        {
+        var temp: Double = 0;
+        
+        temp = processorStack.top();
+        processorStack.pop();
+        
+        temp = temp / processorStack.top();
+        processorStack.pop();
+        
+        processorStack.push ( valueToPush: temp );
+        
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+    private func stackSin()
+        {
+        var temp: Double = 0;
+        
+        temp = processorStack.top();
+        processorStack.pop();
+        
+        processorStack.push ( valueToPush: sin ( temp ) );
+        
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+    private func stackCos()
+        {
+        var temp: Double = 0;
+        
+        temp = processorStack.top();
+        processorStack.pop();
+        
+        processorStack.push ( valueToPush: cos ( temp ) );
+        
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+    private func stackSqrt()
+        {
+        var temp: Double = 0;
+        
+        temp = processorStack.top();
+        processorStack.pop();
+        
+        processorStack.push ( valueToPush: sqrt ( temp ) );
+        
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+    private func stackAbs()
+        {
+        var temp: Double = 0;
+        
+        temp = processorStack.top();
+        processorStack.pop();
+        
+        processorStack.push ( valueToPush: abs ( temp ) );
+    
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+    private func stackDup()
+        {
+        processorStack.push ( valueToPush: processorStack.top() );
+        
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+    private func stackDump()
+        {
+        /////////   WHERE IS MY DUUUUUUUUUUUMP??
+        
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+//    private func stackPopS()
+//        {
+//        processorStack.pop();
+//        
+//        currentMemoryCell = currentMemoryCell + 2;
+//        }
+    
+    private func stackIn()
+        {
+        var temp: Double = Double ( readLine() )!;
+        
+        processorStack.push ( valueToPush: temp );
+        
+        currentMemoryCell = currentMemoryCell + 2;
+        }
+        
+    
         
     
     
