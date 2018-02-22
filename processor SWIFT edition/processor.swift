@@ -71,6 +71,7 @@ class Processor
 //            currentCellTemp = currentCellTemp + 
             }
         
+        return 0;
         }
     
     
@@ -89,7 +90,7 @@ class Processor
                 
                 if ( currentWord != "" )
                     {
-                    instructionArray [ currentCellTemp + shift ] = String ( currentWord );
+                    instructionArray [ currentCellTemp + shift ] = Double ( currentWord )!;
                     }
                 
                 shift = shift + 1;
@@ -255,13 +256,182 @@ class Processor
             
             
             default:
-                {
+                do {
                 returnState = -7;
                 }
         
             }
         
         return returnState;
+        }
+        
+    
+    
+
+    private func pushMe ( operandaModifier: Int ) -> Int
+        {
+        if ( operandaModifier == 0 )
+            {
+            processorStack.push ( valueToPush: ram [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] );
+
+            currentMemoryCell = currentMemoryCell + 3;
+            return 0;
+            }
+        
+        if ( operandaModifier == 1 )
+            {
+                processorStack.push ( valueToPush: ram [ Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) ] );
+
+            currentMemoryCell = currentMemoryCell + 3;
+            return 0;
+            }
+        
+        if ( operandaModifier == 2 )
+            {
+                processorStack.push ( valueToPush: ram [ Int ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) + Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] ) ) ] );
+
+            currentMemoryCell = currentMemoryCell + 4;
+            return 0;
+            }
+
+        if ( operandaModifier == 3 )
+            {
+            // processorStack.push ( ram [ Int ( registerArray [ Int ( Int ( instructionArray [  ] )! )! ] )! ] )
+                processorStack.push ( valueToPush: ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) + Int ( instructionArray [ currentMemoryCell + 3 ] ) ) ) ] );
+
+            currentMemoryCell = currentMemoryCell + 4;
+            return 0;     
+            }
+
+        if ( operandaModifier == 4 )
+            {
+            var tempIndex1: Int = Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] );
+            var tempIndex2: Int = Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] );
+//            processorStack.push ( valueToPush: ram [ Int ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) - Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] )! )! ] );
+            processorStack.push ( valueToPush: ram [ Int ( tempIndex1 - tempIndex2 ) ] );
+            
+            currentMemoryCell = currentMemoryCell + 4;
+            return 0;
+            }
+
+        if ( operandaModifier == 5 )
+            {
+                processorStack.push ( valueToPush: ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) + Int ( instructionArray [ currentMemoryCell + 3 ] ) ) ) ] );
+
+            currentMemoryCell = currentMemoryCell + 4;
+            return 0;
+            }
+
+        if ( operandaModifier == 6 )
+            {
+            processorStack.push ( valueToPush: instructionArray [ currentMemoryCell + 2 ] );
+
+            currentMemoryCell = currentMemoryCell + 3;
+            return 0;
+            }
+        
+        if ( operandaModifier == 7 )
+            {
+                processorStack.push ( valueToPush: registerArray [ Int ( instructionArray [ Int ( currentMemoryCell + 2 ) ] ) ] );
+
+            currentMemoryCell = currentMemoryCell + 3;
+            return 0;
+            }
+
+        return -1;
+        }
+
+
+    private func popMe ( operandaModifier: Int ) -> Int
+        {
+        if ( operandaModifier == 0 )
+            {
+                ram [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] = processorStack.top();
+            processorStack.pop();
+
+            currentMemoryCell = currentMemoryCell + 3;
+            return 0;
+            }
+        
+        if ( operandaModifier == 1 )
+            {
+//            ram [ Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ) ] ) ] = processorStack.top();
+                ram [ Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) ] = processorStack.top();
+            processorStack.pop();
+
+            currentMemoryCell = currentMemoryCell + 3;
+            return 0;
+            }
+        
+        if ( operandaModifier == 2 )
+            {
+            // processorStack.push ( ram [ Int ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] )! + Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] )! )! ] );
+                ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) + Int ( instructionArray [ currentMemoryCell + 3 ] ) ) ) ] = processorStack.top();
+            processorStack.pop();
+
+            currentMemoryCell = currentMemoryCell + 4;
+            return 0;
+            }
+
+        if ( operandaModifier == 3 )
+            {
+            var tempIndex1: Int = Int ( instructionArray [ currentMemoryCell + 2 ] );
+            var tempIndex2: Int = Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] );
+            
+            // processorStack.push ( ram [ Int ( registerArray [ Int ( Int ( instructionArray [  ] )! )! ] )! ] )
+            // processorStack.push ( ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] )! + Int ( instructionArray [ currentMemoryCell + 3 ] )! ) )! ] );
+//            ram [ Int ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) + Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] )! )! ] = processorStack.top();
+
+            ram [ Int ( Int ( registerArray [ tempIndex1 ] ) + tempIndex2 ) ] = processorStack.top();
+
+            processorStack.pop();
+
+            currentMemoryCell = currentMemoryCell + 4;
+            return 0;     
+            }
+
+        if ( operandaModifier == 4 )
+            {
+                ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) - Int ( instructionArray [ currentMemoryCell + 3 ] ) ) )] = processorStack.top();
+            processorStack.pop();
+
+            currentMemoryCell = currentMemoryCell + 4;
+            return 0;
+            }
+
+        if ( operandaModifier == 5 )
+            {
+            var tempIndex1: Int = Int ( instructionArray [ currentMemoryCell + 2 ] );
+            var tempIndex2: Int = Int ( instructionArray [ currentMemoryCell + 2 ] );
+            
+//            ram [ Int ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) - Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] )! )! ] = processorStack.top();
+            ram [ Int ( Int ( registerArray [ tempIndex1 ] ) - tempIndex2 ) ] = processorStack.top();
+
+
+            processorStack.pop();
+
+            currentMemoryCell = currentMemoryCell + 4;
+            return 0;
+            }
+
+        if ( operandaModifier == -1 )
+            {
+            processorStack.pop()
+
+            currentMemoryCell = currentMemoryCell + 2;
+            return 0;
+            }
+        
+        if ( operandaModifier == 7 )
+            {
+                registerArray [ Int ( instructionArray [ Int ( currentMemoryCell + 2 ) ] ) ] = processorStack.top();
+            processorStack.pop();
+
+            currentMemoryCell = currentMemoryCell + 3;
+            return 0;
+            }
+
+        return -1;
         }
         
         
@@ -407,9 +577,9 @@ class Processor
     
     private func stackIn()
         {
-        var temp: Double = Double ( readLine() )!;
+        var temp: String = readLine()!;
         
-        processorStack.push ( valueToPush: temp );
+        processorStack.push ( valueToPush: Double ( temp )! );
         
         currentMemoryCell = currentMemoryCell + 2;
         }
