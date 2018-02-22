@@ -23,7 +23,10 @@ class Stack <typeOfData>
 
     public func pop()
         {
-        storage.removeLast();
+        if ( !empty() )
+            {
+            storage.removeLast();
+            }
             
         stackSize = stackSize - 1;
         }
@@ -42,7 +45,15 @@ class Stack <typeOfData>
         
     public func top() -> typeOfData
         {
-        return storage [ ( stackSize - 1 ) ];
+        //// TEMP SOLUTION a.k.a kostil'
+        if ( self.size() > 0 )
+            {
+            return storage [ ( stackSize - 1 ) ];
+            }
+        else
+            {
+            return 0.0 as! typeOfData;
+            }
         }
 
     };

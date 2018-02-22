@@ -26,8 +26,10 @@ class Compiler
     private var compilationStartTime: Double = 0;
     private var compilationFinishTime: Double = 0;
     
-    init ( storage storageTemp: String )
+    init ( storage storageTemp: String, machineCodeTemp: inout String )
         {
+        machineCode = machineCodeTemp;
+        
         compilationStartTime = Date().timeIntervalSince1970;
         
         print ( "COMPILATION..." );
@@ -44,12 +46,22 @@ class Compiler
     deinit  
         {
         print ( "AAA: " );
-        print ( "\( machineCode )" );
+        print ( "AAAAAAAA" );
+        }
+        
+    public func getMachineCode() -> String
+        {
+        while ( !isReady )
+            {
+            usleep ( 5 );
+            }
+        return machineCode;
         }
     
     
     //----------------------------------------------------------------------
     var machineCode: String = "";
+    var isReady: Bool = false;
     //----------------------------------------------------------------------
     var commandInMemoryLocation: Int = -1;
     //----------------------------------------------------------------------
@@ -243,7 +255,7 @@ class Compiler
             
             }
         
-        
+        isReady = true;
         print ( machineCode );
         print ( "FINAL TIME: \( compilationStartTime - Date().timeIntervalSince1970 )" );
         

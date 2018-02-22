@@ -44,7 +44,7 @@ let haultCommandHuman = "hlt";
 let pushCommandHuman = "push";
 let popCommandHuman = "pop";
 
-let inputFromKeyboardCommandHuman = "out";
+let inputFromKeyboardCommandHuman = "in";
 let outputCommandHuman = "out";
 
 let additionCommandHuman = "add";

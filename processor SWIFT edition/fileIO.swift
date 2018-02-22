@@ -72,16 +72,20 @@ class FileIO
         
         while notEnd
             {
-            currentCharTemp = String ( storage [ storage.index ( storageBeginningIndex, offsetBy: currentChar ) ] );
-
-            result = result + currentCharTemp;
-            
-            currentChar = currentChar + 1;
-            
-        if ( ( currentCharTemp == "\n" ) || ( currentChar >= storageSize ) )
+            if ( ( currentCharTemp == "\n" ) || ( currentChar >= storageSize ) )
                 {
                 notEnd = false;
                 }
+            else
+                {
+                print ( "Debug: \( storage [ storage.index ( storageBeginningIndex, offsetBy: currentChar ) ] )" );
+                currentCharTemp = String ( storage [ storage.index ( storageBeginningIndex, offsetBy: currentChar ) ] );
+
+                result = result + currentCharTemp;
+                
+                currentChar = currentChar + 1;
+                }
+            
             }
         
         return result;

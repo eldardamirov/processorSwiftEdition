@@ -18,6 +18,11 @@ class Processor
         
         ram.reserveCapacity ( 1024 ); // magic number;
         
+        for _ in 0..<registerQuantity
+            {
+            registerArray.append ( Double() );
+            }
+        
         makeInstructionStack();
         
         controlCommandsDoing();
@@ -56,22 +61,39 @@ class Processor
     private var registerArray: [ Double ] = [ Double ](); // needs reservation;
     
     
+    private func clearFromJunk ( _ inputString: String ) -> String
+        {        
+        if ( inputString [ inputString.index ( before: inputString.endIndex ) ] == "\n" )
+            {
+            return String ( inputString.prefix ( inputString.count - 1 ) );
+            }
+        else
+            {
+            return inputString;
+            }
+        
+        }
     
     
     private func makeInstructionStack() -> Int
         {
         commandsQuantity = machineCode.calculateLinesQuantity();
         
-        cellQuantity = fromStringToNumber ( number: machineCode.getTillEndOfLine() );
+        cellQuantity = fromStringToNumber ( number: clearFromJunk ( machineCode.getTillEndOfLine() ) );
+        
+        for _ in 0..<( cellQuantity + 5 )
+            {
+            instructionArray.append ( Double() );
+            }
         
         var currentCellTemp: Int = 0;
         
         for currentLine in 1..<commandsQuantity
             {
-//            currentCellTemp = currentCellTemp + 
+            currentCellTemp = currentCellTemp + parseLine ( currentLine: machineCode.getTillEndOfLine(), currentCellTemp: currentCellTemp );
             }
         
-        return 0;
+        return currentCellTemp;
         }
     
     
@@ -104,6 +126,14 @@ class Processor
                 }
                 
             }
+        
+        if ( currentWord != "" )
+            {
+            instructionArray [ currentCellTemp + shift ] = Double ( clearFromJunk ( currentWord ) )!;
+            shift = shift + 1;
+            }
+        
+        
         
         return shift;
         }
@@ -201,50 +231,169 @@ class Processor
                 
                 returnState = 0;
                 }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
-//            case processorCommands.hlt.rawValue:
-//                {
-//                return 2;
-//                }
+            case processorCommands.pop.rawValue:
+                do {
+                var operandaModifier = instructionArray [ currentMemoryCell + 1 ]
+                
+                    returnState = popMe ( operandaModifier: Int ( operandaModifier ) );
+                }
+            case processorCommands.push.rawValue:
+                do {
+                var operandaModifier = self.instructionArray [ currentMemoryCell + 1 ];
+                
+                returnState = pushMe ( operandaModifier: Int ( operandaModifier ) );
+                }
+            case processorCommands.myIn.rawValue:
+                do {
+                stackIn();
+                
+                returnState = 0;
+                }
+            case processorCommands.call.rawValue:
+                do {
+                functionBaskMarksStack.push ( valueToPush: ( currentMemoryCell + 2 ) );
+                currentMemoryCell = Int ( instructionArray [ currentMemoryCell + 1 ] + 1 );
+                
+                returnState = 0;
+                }
+            case processorCommands.jmp.rawValue:
+                do {
+                    currentMemoryCell = Int(instructionArray [ currentMemoryCell + 1 ] + 1);
+                
+                returnState = 0;
+                }
+            case processorCommands.je.rawValue:
+                do {
+                if ( self.processorStack.size() >= 2 )
+                    {
+                    var first: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    var second: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    if ( first == second )
+                        {
+                        currentMemoryCell = Int(instructionArray [ currentMemoryCell + 1 ] + 1);
+                        returnState = 0;
+                        }
+        
+                    }
+                
+                self.currentMemoryCell = currentMemoryCell + 2;
+                        
+                returnState = 0;
+                }
+            case processorCommands.jne.rawValue:
+                do {
+                if ( self.processorStack.size() >= 2 )
+                    {
+                    var first: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    var second: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    if ( first != second )
+                        {
+                        currentMemoryCell = Int(instructionArray [ currentMemoryCell + 1 ] + 1);
+                        returnState = 0;
+                        }
+        
+                    }
+                
+                self.currentMemoryCell = currentMemoryCell + 2;
+                        
+                returnState = 0;
+                }
+            case processorCommands.ja.rawValue:
+                do {
+                if ( self.processorStack.size() >= 2 )
+                    {
+                    var first: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    var second: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    if ( first > second )
+                        {
+                        currentMemoryCell = Int(instructionArray [ currentMemoryCell + 1 ] + 1);
+                        returnState = 0;
+                        }
+        
+                    }
+                
+                self.currentMemoryCell = currentMemoryCell + 2;
+                        
+                returnState = 0;
+                }
+            case processorCommands.jae.rawValue:
+                do {
+                if ( self.processorStack.size() >= 2 )
+                    {
+                    var first: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    var second: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    if ( first >= second )
+                        {
+                        currentMemoryCell = Int(instructionArray [ currentMemoryCell + 1 ] + 1);
+                        returnState = 0;
+                        }
+        
+                    }
+                
+                self.currentMemoryCell = currentMemoryCell + 2;
+                        
+                returnState = 0;
+                }
+            case processorCommands.jb.rawValue:
+                do {
+                if ( self.processorStack.size() >= 2 )
+                    {
+                    var first: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    var second: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    if ( first < second )
+                        {
+                        currentMemoryCell = Int(instructionArray [ currentMemoryCell + 1 ] + 1);
+                        returnState = 0;
+                        }
+        
+                    }
+                
+                self.currentMemoryCell = currentMemoryCell + 2;
+                        
+                returnState = 0;
+                }
+            case processorCommands.jbe.rawValue:
+                do {
+                if ( self.processorStack.size() >= 2 )
+                    {
+                    var first: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    var second: Double = self.processorStack.top();
+                    self.processorStack.pop();
+                    
+                    if ( first <= second )
+                        {
+                        currentMemoryCell = Int(instructionArray [ currentMemoryCell + 1 ] + 1);
+                        returnState = 0;
+                        }
+        
+                    }
+                
+                self.currentMemoryCell = currentMemoryCell + 2;
+                        
+                returnState = 0;
+                }
 //            case processorCommands.hlt.rawValue:
 //                {
 //                return 2;
@@ -424,7 +573,7 @@ class Processor
         
         if ( operandaModifier == 7 )
             {
-                registerArray [ Int ( instructionArray [ Int ( currentMemoryCell + 2 ) ] ) ] = processorStack.top();
+            registerArray [ Int ( instructionArray [ Int ( currentMemoryCell + 2 ) ] ) ] = processorStack.top();
             processorStack.pop();
 
             currentMemoryCell = currentMemoryCell + 3;
@@ -438,7 +587,7 @@ class Processor
         
     private func stackOut() 
         {
-        print ( "\( processorStack.top() )" );
+        print ( "OUT: \( processorStack.top() )" );
         
         processorStack.pop();
         
