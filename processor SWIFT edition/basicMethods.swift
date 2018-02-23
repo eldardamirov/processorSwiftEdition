@@ -66,7 +66,7 @@ func isArithmetic ( inputChar: Character ) -> Bool
 
 func fromStringToInt ( figure: Character ) -> Int
     {
-    var figureInt: Int = Int ( String ( figure ) )!;
+    let figureInt: Int = Int ( String ( figure ) )!;
     
     if ( ( figureInt - zero ) < 10 )
         {
@@ -74,7 +74,7 @@ func fromStringToInt ( figure: Character ) -> Int
         }
     else
         {
-        var letterA: Int = Int ( "A" )!;
+        let letterA: Int = Int ( "A" )!;
         return ( figureInt - ( letterA - 10 ) );
         }
     

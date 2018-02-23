@@ -197,7 +197,7 @@ class Compiler
         var lineToWrite: String = "";
         var commandState: Int = 0;
         
-        var sumOfMemoryCells = String ( commandInMemoryLocation ) + "\n";
+        let sumOfMemoryCells = String ( commandInMemoryLocation ) + "\n";
         
         var temp: String = "";
         
@@ -267,8 +267,8 @@ class Compiler
         {
         var result: String = "";
 
-        var inputArgumentLength = inputArgument.count;
-        var inputArgumentBeginningIndex = inputArgument.startIndex;
+        let inputArgumentLength = inputArgument.count;
+        let inputArgumentBeginningIndex = inputArgument.startIndex;
         
         if ( mode == 0 )
             {
@@ -289,10 +289,11 @@ class Compiler
             {
             var rangeTemp = ( 1..<inputArgumentLength ).makeIterator();
             var currentCharTemp = 0;
+            var tempCharacter: String = "";
 //            for currentChar in 1..<inputArgumentLength
             while var currentChar = rangeTemp.next()
                 {
-                var tempCharacter = inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ];
+                tempCharacter = String ( inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ] );
                 
                 if ( ( tempCharacter == "+" ) || ( tempCharacter == "-" ) )
                     {
@@ -338,7 +339,7 @@ class Compiler
         {
         var memoryShift: Int = 0;
         
-        var currentArgumentTempBeginningIndex = currentArgumentTemp.startIndex;
+            let currentArgumentTempBeginningIndex = currentArgumentTemp.startIndex;
         
         
         if ( currentArgumentTemp [ currentArgumentTemp.index ( currentArgumentTempBeginningIndex, offsetBy: 0 ) ] == "[" )
@@ -356,7 +357,7 @@ class Compiler
                     {
                     commandsArray [ currentCommand ].argument = Double ( recogniseRegister ( registerName: getArgumentFromString ( inputArgument: currentArgumentTemp, mode: 0 ) ) );
                     
-                    var secondArgument: String = getArgumentFromString ( inputArgument: currentArgumentTemp , mode: 1 );
+                    let secondArgument: String = getArgumentFromString ( inputArgument: currentArgumentTemp , mode: 1 );
                     
                     if ( secondArgument.count != 0 )
                         {
@@ -424,10 +425,10 @@ class Compiler
 
     private func getWordInString ( inputString: String, mode: Int ) -> String
         {
-        var inputString = inputString;
-        var inputStringSize = inputString.count - 1;
+        let inputString = inputString;
+        let inputStringSize = inputString.count - 1;
         var result: String = "";
-        var inputStringBeginningIndex: String.Index = inputString.startIndex;
+        let inputStringBeginningIndex: String.Index = inputString.startIndex;
 
         if ( mode == 0 )
             {
@@ -481,9 +482,9 @@ class Compiler
     private func clearFromSpaces ( currentArgumentTemp: String ) -> String
         {
         var result: String = "";
-        var argumentLength: Int = currentArgumentTemp.count;
+        let argumentLength: Int = currentArgumentTemp.count;
         
-        var currentArgumentTempBeginningIndex = currentArgumentTemp.startIndex;
+        let currentArgumentTempBeginningIndex = currentArgumentTemp.startIndex;
         
         for currentChar in 0..<argumentLength
             {

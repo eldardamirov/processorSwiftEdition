@@ -83,7 +83,7 @@ import Foundation
 
 var humanCode = 
 """
-push 1500
+push 150
 pop r1
 push 0
 pop r2
@@ -99,6 +99,8 @@ mark1
 dup
 pop bx
 add
+dup
+out
 pop cx
 push bx
 push cx

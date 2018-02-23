@@ -43,10 +43,10 @@ class Processor
     
     private func controlCommandsDoing() -> Int
         {
-        
+        var temp: Int = 0;
         while ( true )
             {
-            var temp: Int = doCommand();
+            temp = doCommand();
             if ( ( temp == -9 ) || ( temp == processorCommands.nullCommand.rawValue ) )
                 {
                 return 0;
@@ -101,7 +101,7 @@ class Processor
         
         var currentCellTemp: Int = 0;
         
-        for currentLine in 1..<commandsQuantity
+        for _ in 1..<commandsQuantity
             {
             currentCellTemp = currentCellTemp + parseLine ( currentLine: machineCode.getTillEndOfLine(), currentCellTemp: currentCellTemp );
             }
@@ -114,9 +114,9 @@ class Processor
         {
         var shift: Int = 0;
         var currentWord: String = "";
-        var lineSize: Int = currentLine.count;
+        let lineSize: Int = currentLine.count;
         
-        var currentLineBeginningIndex: String.Index = currentLine.startIndex;
+            let currentLineBeginningIndex: String.Index = currentLine.startIndex;
         
         for currentCharIndex in 0..<lineSize
             {
@@ -156,7 +156,7 @@ class Processor
         
     private func doCommand() -> Int
         {
-        var commandId: Int = Int ( instructionArray [ currentMemoryCell ] ); 
+            let commandId: Int = Int ( instructionArray [ currentMemoryCell ] ); 
         
         var returnState: Int = 0;
         
@@ -247,13 +247,13 @@ class Processor
                 }
             case processorCommands.pop.rawValue:
                 do {
-                var operandaModifier = instructionArray [ currentMemoryCell + 1 ]
+                    let operandaModifier = instructionArray [ currentMemoryCell + 1 ]
                 
                     returnState = popMe ( operandaModifier: Int ( operandaModifier ) );
                 }
             case processorCommands.push.rawValue:
                 do {
-                var operandaModifier = self.instructionArray [ currentMemoryCell + 1 ];
+                    let operandaModifier = self.instructionArray [ currentMemoryCell + 1 ];
                 
                 returnState = pushMe ( operandaModifier: Int ( operandaModifier ) );
                 }
@@ -280,10 +280,10 @@ class Processor
                 do {
                 if ( self.processorStack.size() >= 2 )
                     {
-                    var first: Double = self.processorStack.top();
+                        let first: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
-                    var second: Double = self.processorStack.top();
+                        let second: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
                     if ( first == second )
@@ -304,10 +304,10 @@ class Processor
                 do {
                 if ( self.processorStack.size() >= 2 )
                     {
-                    var first: Double = self.processorStack.top();
+                        let first: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
-                    var second: Double = self.processorStack.top();
+                        let second: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
                     print ( "IT IS JNE: first \( first ) and second \( second )" );
@@ -332,10 +332,10 @@ class Processor
                 do {
                 if ( self.processorStack.size() >= 2 )
                     {
-                    var first: Double = self.processorStack.top();
+                        let first: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
-                    var second: Double = self.processorStack.top();
+                        let second: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
                     if ( first > second )
@@ -356,10 +356,10 @@ class Processor
                 do {
                 if ( self.processorStack.size() >= 2 )
                     {
-                    var first: Double = self.processorStack.top();
+                        let first: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
-                    var second: Double = self.processorStack.top();
+                        let second: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
                     if ( first >= second )
@@ -380,10 +380,10 @@ class Processor
                 do {
                 if ( self.processorStack.size() >= 2 )
                     {
-                    var first: Double = self.processorStack.top();
+                        let first: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
-                    var second: Double = self.processorStack.top();
+                        let second: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
                     if ( first < second )
@@ -404,10 +404,10 @@ class Processor
                 do {
                 if ( self.processorStack.size() >= 2 )
                     {
-                    var first: Double = self.processorStack.top();
+                    let first: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
-                    var second: Double = self.processorStack.top();
+                    let second: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
                     if ( first <= second )
@@ -484,8 +484,8 @@ class Processor
 
         if ( operandaModifier == 4 )
             {
-            var tempIndex1: Int = Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] );
-            var tempIndex2: Int = Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] );
+            let tempIndex1: Int = Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] );
+            let tempIndex2: Int = Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] );
 //            processorStack.push ( valueToPush: ram [ Int ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) - Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] )! )! ] );
             processorStack.push ( valueToPush: ram [ Int ( tempIndex1 - tempIndex2 ) ] );
             
@@ -495,7 +495,7 @@ class Processor
 
         if ( operandaModifier == 5 )
             {
-                processorStack.push ( valueToPush: ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) + Int ( instructionArray [ currentMemoryCell + 3 ] ) ) ) ] );
+            processorStack.push ( valueToPush: ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) + Int ( instructionArray [ currentMemoryCell + 3 ] ) ) ) ] );
 
             currentMemoryCell = currentMemoryCell + 4;
             return 0;
@@ -535,7 +535,7 @@ class Processor
         if ( operandaModifier == 1 )
             {
 //            ram [ Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ) ] ) ] = processorStack.top();
-                ram [ Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) ] = processorStack.top();
+            ram [ Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) ] = processorStack.top();
             processorStack.pop();
 
             currentMemoryCell = currentMemoryCell + 3;
@@ -545,7 +545,7 @@ class Processor
         if ( operandaModifier == 2 )
             {
             // processorStack.push ( ram [ Int ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] )! + Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] )! )! ] );
-                ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) + Int ( instructionArray [ currentMemoryCell + 3 ] ) ) ) ] = processorStack.top();
+            ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) + Int ( instructionArray [ currentMemoryCell + 3 ] ) ) ) ] = processorStack.top();
             processorStack.pop();
 
             currentMemoryCell = currentMemoryCell + 4;
@@ -554,8 +554,8 @@ class Processor
 
         if ( operandaModifier == 3 )
             {
-            var tempIndex1: Int = Int ( instructionArray [ currentMemoryCell + 2 ] );
-            var tempIndex2: Int = Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] );
+            let tempIndex1: Int = Int ( instructionArray [ currentMemoryCell + 2 ] );
+            let tempIndex2: Int = Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] );
             
             // processorStack.push ( ram [ Int ( registerArray [ Int ( Int ( instructionArray [  ] )! )! ] )! ] )
             // processorStack.push ( ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] )! + Int ( instructionArray [ currentMemoryCell + 3 ] )! ) )! ] );
@@ -571,7 +571,7 @@ class Processor
 
         if ( operandaModifier == 4 )
             {
-                ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) - Int ( instructionArray [ currentMemoryCell + 3 ] ) ) )] = processorStack.top();
+            ram [ Int ( ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) - Int ( instructionArray [ currentMemoryCell + 3 ] ) ) )] = processorStack.top();
             processorStack.pop();
 
             currentMemoryCell = currentMemoryCell + 4;
@@ -580,8 +580,8 @@ class Processor
 
         if ( operandaModifier == 5 )
             {
-            var tempIndex1: Int = Int ( instructionArray [ currentMemoryCell + 2 ] );
-            var tempIndex2: Int = Int ( instructionArray [ currentMemoryCell + 2 ] );
+            let tempIndex1: Int = Int ( instructionArray [ currentMemoryCell + 2 ] );
+            let tempIndex2: Int = Int ( instructionArray [ currentMemoryCell + 2 ] );
             
 //            ram [ Int ( Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] ) - Int ( registerArray [ Int ( instructionArray [ currentMemoryCell + 3 ] ) ] )! )! ] = processorStack.top();
             ram [ Int ( Int ( registerArray [ tempIndex1 ] ) - tempIndex2 ) ] = processorStack.top();
