@@ -24,41 +24,64 @@ import Foundation
 //"""
 //push 1500
 //pop r1
-//push 0
-//pop r2
-//push 1
-//pop r3
-//push 1
-//dup
-//pop ax
-//dup
-//push 1
-//dup
 //mark1
-//dup
-//pop bx
-//add
-//pop cx
-//push bx
-//push cx
-//push r1
-//push r2
-//push r3
-//add
-//dup
+//push 1
 //out
-//dup
-//pop r2
-//jb mark1
+//jmp mark1
 //hlt
 //"""; 
 
 
+//var humanCode =
+//"""
+//push 1
+//pop r1
+//push 1
+//pop r2
+//mark1
+//push r1
+//push r2
+//add
+//dup
+//out
+//push r2
+//pop r1
+//pop r2
+//jmp mark1
+//hlt
+//""";
+
 var humanCode = 
 """
-
-
-
+push 1500
+pop r1
+push 0
+pop r2
+push 1
+pop r3
+push 1
+dup
+pop ax
+dup
+push 1
+dup
+mark1
+dup
+pop bx
+add
+dup
+out
+pop cx
+push bx
+push cx
+push r1
+push r2
+push r3
+add
+dup
+pop r2
+jb mark1
+hlt
 """;
 
 

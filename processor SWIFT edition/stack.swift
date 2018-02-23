@@ -23,12 +23,14 @@ class Stack <typeOfData>
 
     public func pop()
         {
-        if ( !empty() )
+        if ( empty() )
             {
             storage.removeLast();
+            
+            stackSize = stackSize - 1;
             }
             
-        stackSize = stackSize - 1;
+        
         }
 	
     

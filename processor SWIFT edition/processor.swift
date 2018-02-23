@@ -34,7 +34,8 @@ class Processor
         
         while ( true )
             {
-            if ( doCommand() == -9 )
+            var temp: Int = doCommand();
+            if ( ( temp == -9 ) || ( temp == processorCommands.nullCommand.rawValue ) )
                 {
                 return 0;
                 }
@@ -258,7 +259,7 @@ class Processor
                 }
             case processorCommands.jmp.rawValue:
                 do {
-                    currentMemoryCell = Int(instructionArray [ currentMemoryCell + 1 ] + 1);
+                currentMemoryCell = Int(instructionArray [ currentMemoryCell + 1 ] + 1);
                 
                 returnState = 0;
                 }
@@ -279,8 +280,10 @@ class Processor
                         }
         
                     }
-                
-                self.currentMemoryCell = currentMemoryCell + 2;
+                else
+                    {
+                    self.currentMemoryCell = currentMemoryCell + 2;
+                    }
                         
                 returnState = 0;
                 }
@@ -294,15 +297,21 @@ class Processor
                     var second: Double = self.processorStack.top();
                     self.processorStack.pop();
                     
+                    print ( "IT IS JNE: first \( first ) and second \( second )" );
+                    
                     if ( first != second )
                         {
-                        currentMemoryCell = Int(instructionArray [ currentMemoryCell + 1 ] + 1);
+                        print ( "CURRENT MEMCELL BEFORE: \( currentMemoryCell )" );
+                        currentMemoryCell = Int ( instructionArray [ currentMemoryCell + 1 ] + 1 );
+                        print ( "CURRENT MEMCELL AFTER: \( currentMemoryCell )" );
                         returnState = 0;
                         }
         
                     }
-                
-                self.currentMemoryCell = currentMemoryCell + 2;
+                else
+                    {
+                    self.currentMemoryCell = currentMemoryCell + 2;
+                    }
                         
                 returnState = 0;
                 }
@@ -323,8 +332,10 @@ class Processor
                         }
         
                     }
-                
-                self.currentMemoryCell = currentMemoryCell + 2;
+                else
+                    {
+                    self.currentMemoryCell = currentMemoryCell + 2;
+                    }
                         
                 returnState = 0;
                 }
@@ -345,8 +356,10 @@ class Processor
                         }
         
                     }
-                
-                self.currentMemoryCell = currentMemoryCell + 2;
+                else
+                    {
+                    self.currentMemoryCell = currentMemoryCell + 2;
+                    }
                         
                 returnState = 0;
                 }
@@ -367,8 +380,10 @@ class Processor
                         }
         
                     }
-                
-                self.currentMemoryCell = currentMemoryCell + 2;
+                else
+                    {
+                    self.currentMemoryCell = currentMemoryCell + 2;
+                    }
                         
                 returnState = 0;
                 }
@@ -389,8 +404,10 @@ class Processor
                         }
         
                     }
-                
-                self.currentMemoryCell = currentMemoryCell + 2;
+                else
+                    {
+                    self.currentMemoryCell = currentMemoryCell + 2;
+                    }
                         
                 returnState = 0;
                 }

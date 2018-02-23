@@ -71,9 +71,9 @@
 			children = (
 				86D88E38202F46CB0095A003 /* main.swift */,
 				865855A8203E129C00A70848 /* processor.swift */,
+				861E4DC9203A23A3001535D1 /* compiler.swift */,
 				86D88E3F202F49A40095A003 /* basicMethods.swift */,
 				861E4DC7203A11BB001535D1 /* fileIO.swift */,
-				861E4DC9203A23A3001535D1 /* compiler.swift */,
 				86D88E43202F5AAA0095A003 /* stack.swift */,
 				86D88E41202F56EB0095A003 /* commandsList.swift */,
 			);
