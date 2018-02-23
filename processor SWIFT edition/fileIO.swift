@@ -78,7 +78,7 @@ class FileIO
                 }
             else
                 {
-                print ( "Debug: \( storage [ storage.index ( storageBeginningIndex, offsetBy: currentChar ) ] )" );
+//                print ( "Debug: \( storage [ storage.index ( storageBeginningIndex, offsetBy: currentChar ) ] )" );
                 currentCharTemp = String ( storage [ storage.index ( storageBeginningIndex, offsetBy: currentChar ) ] );
 
                 result = result + currentCharTemp;
@@ -87,6 +87,8 @@ class FileIO
                 }
             
             }
+        
+//        result = clearFromJunk ( result ); 
         
         return result;
         }

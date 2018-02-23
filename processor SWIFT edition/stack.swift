@@ -14,6 +14,11 @@ class Stack <typeOfData>
     private var storage = [ typeOfData ]();
     private var stackSize: Int = 0;
     
+    public func boost()
+        {
+        storage.reserveCapacity ( 100 );
+        }
+    
     public func push ( valueToPush value: typeOfData )
         {
         storage.append ( value );

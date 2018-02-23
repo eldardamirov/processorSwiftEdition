@@ -15,6 +15,33 @@ import Foundation
 
 //var humanCode: String = 
 //"""
+//func1
+//push 1.5626268
+//dup
+//add
+//out
+//ret
+//push 10
+//pop [0]
+//push [0]
+//push [0]
+//add
+//out
+//call func1
+//push 5
+//pop ax
+//push 10
+//pop bx
+//push 14839.8433759492
+//pop [ax+bx]
+//hlt
+//""";
+
+
+
+
+//var humanCode: String = 
+//"""
 //push 1
 //out
 //hlt
@@ -51,6 +78,9 @@ import Foundation
 //hlt
 //""";
 
+
+//var timeBegin = Date().timeIntervalSince1970;
+
 var humanCode = 
 """
 push 1500
@@ -69,8 +99,6 @@ mark1
 dup
 pop bx
 add
-dup
-out
 pop cx
 push bx
 push cx
@@ -90,8 +118,41 @@ var machineCode: String = "";
 //var myCompiler = Compiler ( storage: humanCode );
 var myCompiler = Compiler ( storage: humanCode, machineCodeTemp: &machineCode )
 
+//var machineCode: String = 
+//"""
+//274859
+//32 6 1.5626268
+//12 -1
+//4 -1
+//3 -1
+//14 -1
+//32 6 10
+//27 0 0
+//32 0 0
+//32 0 0
+//4 -1
+//3 -1
+//23 -1.000000
+//23 -1.000000
+//23 -1.000000
+//23 -1.000000
+//23 -1.000000
+//23 -1.000000
+//23 -1.000000
+//32 6 5
+//27 7 0.000000
+//32 6 10
+//27 7 1.000000
+//32 6 14839.8433759492
+//27 3 0.000000 1.000000
+//0 -1
+//""";
 
-print ( "HAHAHAHAHA: \( myCompiler.getMachineCode() )" );
 
-var myProcessor = Processor ( storage: myCompiler.getMachineCode() );
+print ( "HAHAHAHAHA: \( myCompiler.getMachineCode () )" );
+var timeBegin = Date().timeIntervalSince1970;
 
+var myProcessor = Processor ( storage: myCompiler.getMachineCode (), ramSize: 1024 );
+
+
+print ( "FINAL FINAL TIME: \( Date().timeIntervalSince1970 - timeBegin )" );

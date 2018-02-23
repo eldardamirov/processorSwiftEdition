@@ -12,11 +12,18 @@ import Foundation
 
 class Processor
     {
-    init ( storage storageTemp: String )
+    init ( storage storageTemp: String, ramSize: Int )
         {
         machineCode = FileIO ( inputText: storageTemp );
         
-        ram.reserveCapacity ( 1024 ); // magic number;
+        ram.reserveCapacity ( ramSize ); // magic number;
+        for _ in 0..<ramSize
+            {
+            ram.append ( Double() );
+            }
+        
+        processorStack.boost();
+        
         
         for _ in 0..<registerQuantity
             {
@@ -26,6 +33,11 @@ class Processor
         makeInstructionStack();
         
         controlCommandsDoing();
+        }
+        
+    deinit 
+        {
+//        print ( "TOTAL AMIGON" );
         }
     
     
@@ -128,8 +140,9 @@ class Processor
                 
             }
         
-        if ( currentWord != "" )
+        if ( currentWord != "" && currentWord != "\n" )
             {
+//            instructionArray [ currentCellTemp + shift ] = Double ( clearFromJunk ( currentWord ) )!;
             instructionArray [ currentCellTemp + shift ] = Double ( clearFromJunk ( currentWord ) )!;
             shift = shift + 1;
             }
@@ -512,7 +525,7 @@ class Processor
         {
         if ( operandaModifier == 0 )
             {
-                ram [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] = processorStack.top();
+            ram [ Int ( instructionArray [ currentMemoryCell + 2 ] ) ] = processorStack.top();
             processorStack.pop();
 
             currentMemoryCell = currentMemoryCell + 3;

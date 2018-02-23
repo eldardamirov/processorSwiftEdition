@@ -109,7 +109,23 @@ func myPow ( _ baseNumber: Int, _ degree: Int ) -> Int
     }  
     
     
+func clearFromJunk ( _ inputString: String ) -> String
+    {  
+    if ( inputString.count == 0 )
+        {
+        return "";
+        }
+        
+    if ( inputString [ inputString.index ( before: inputString.endIndex ) ] == "\n" )
+        {
+        return String ( inputString.prefix ( inputString.count - 1 ) );
+        }
+    else
+        {
+        return inputString;
+        }
     
+    }
     
     
     

@@ -45,8 +45,8 @@ class Compiler
         
     deinit  
         {
-        print ( "AAA: " );
-        print ( "AAAAAAAA" );
+//        print ( "AAA: " );
+//        print ( "AAAAAAAA" );
         }
         
     public func getMachineCode() -> String
@@ -187,6 +187,7 @@ class Compiler
 //                RIP my time;
 
                 commandsArray [ i ].argument = Double ( jumpMarks [ String ( commandsArray [ i ].argumentS + "\n" ) ]! );
+//                commandsArray [ i ].argument = Double ( jumpMarks [ String ( commandsArray [ i ].argumentS ) ]! );
                 }
             
             }
@@ -256,7 +257,7 @@ class Compiler
             }
         
         isReady = true;
-        print ( machineCode );
+//        print ( machineCode );
         print ( "FINAL TIME: \( compilationStartTime - Date().timeIntervalSince1970 )" );
         
         }
@@ -271,7 +272,7 @@ class Compiler
         
         if ( mode == 0 )
             {
-            for currentChar in 0..<inputArgumentLength
+            for currentChar in 1..<inputArgumentLength
                 {
                 if ( ( inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ] != "]" ) && ( inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ] != "+" ) && ( inputArgument [ inputArgument.index ( inputArgumentBeginningIndex, offsetBy: currentChar ) ] != "-" ) )
                     {
