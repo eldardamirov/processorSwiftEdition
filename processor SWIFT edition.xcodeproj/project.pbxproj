@@ -31,6 +31,7 @@
 /* Begin PBXFileReference section */
 		861E4DC7203A11BB001535D1 /* fileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fileIO.swift; sourceTree = "<group>"; };
 		861E4DC9203A23A3001535D1 /* compiler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = compiler.swift; sourceTree = "<group>"; };
+		861FFBC02041E82D0068ACC1 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		865855A8203E129C00A70848 /* processor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = processor.swift; sourceTree = "<group>"; };
 		86D88E35202F46CB0095A003 /* processor SWIFT edition */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "processor SWIFT edition"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86D88E38202F46CB0095A003 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -70,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				86D88E38202F46CB0095A003 /* main.swift */,
+				861FFBC02041E82D0068ACC1 /* .travis.yml */,
 				865855A8203E129C00A70848 /* processor.swift */,
 				861E4DC9203A23A3001535D1 /* compiler.swift */,
 				86D88E3F202F49A40095A003 /* basicMethods.swift */,
